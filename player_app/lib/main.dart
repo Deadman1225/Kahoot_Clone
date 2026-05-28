@@ -43,12 +43,12 @@ class _GamePageState extends State<GamePage>
 {
 
   bool isCorrect = false;
-  int position = 4;
+  int position = 0;
   int currentPoints = 0;
   int totalPoints = 0;
   int timer = 20;
 
-  GameState currentState = GameState.winnerScreen;
+  GameState currentState = GameState.lobby;
   late IO.Socket socket;
   
   final TextEditingController pinController = TextEditingController();
