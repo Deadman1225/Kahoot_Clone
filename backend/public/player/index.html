@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Quiz Participant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ===================== LOBBY SCREEN ===================== -->
+    <div id="lobby-screen" class="card">
+        <h1 class="title">Join Game</h1>
+        <input type="text" id="pin-input" class="input-field" placeholder="Game PIN" maxlength="6">
+        <input type="text" id="nickname-input" class="input-field" placeholder="Nickname" maxlength="20">
+        <button id="join-btn" class="btn-primary">Enter</button>
+        <p id="lobby-error" class="error-text hidden"></p>
+    </div>
+
+    <!-- ===================== WAITING SCREEN ===================== -->
+    <div id="waiting-screen" class="card hidden">
+        <div class="waiting-icon">🎮</div>
+        <h2 id="welcome-message" class="subtitle-success">You're in!</h2>
+        <p class="nickname-display" id="display-nickname"></p>
+        <p class="description">See your nickname on screen.<br>Waiting for host to start...</p>
+        <div class="waiting-dots">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <!-- ===================== GET READY SCREEN ===================== -->
+    <div id="get-ready-screen" class="card hidden">
+        <div class="countdown-ring">
+            <svg viewBox="0 0 100 100">
+                <circle class="ring-bg" cx="50" cy="50" r="45"/>
+                <circle class="ring-fill" id="countdown-ring-fill" cx="50" cy="50" r="45"/>
+            </svg>
+            <span id="countdown-number" class="countdown-number">3</span>
+        </div>
+        <p class="get-ready-label">Get Ready!</p>
+    </div>
+
+    <!-- ===================== QUESTION SCREEN ===================== -->
+    <div id="question-screen" class="hidden">
+        <!-- Top bar: timer + question number -->
+        <div class="question-topbar">
+            <div class="q-meta">
+                <span id="q-number" class="q-number">Q 1</span>
+                <span id="q-total" class="q-total">/ 10</span>
+            </div>
+            <div class="timer-circle">
+                <svg viewBox="0 0 100 100">
+                    <circle class="timer-bg" cx="50" cy="50" r="42"/>
+                    <circle class="timer-track" id="timer-track" cx="50" cy="50" r="42"/>
+                </svg>
+                <span id="timer-count" class="timer-count">20</span>
+            </div>
+        </div>
+
+        <!-- Answer options -->
+        <div id="option-cards" class="options-grid">
+            <button class="option opt-triangle" id="opt-0">
+                <span class="opt-icon">▲</span>
+                <span class="opt-text" id="opt-text-0"></span>
+            </button>
+            <button class="option opt-diamond" id="opt-1">
+                <span class="opt-icon">◆</span>
+                <span class="opt-text" id="opt-text-1"></span>
+            </button>
+            <button class="option opt-circle" id="opt-2">
+                <span class="opt-icon">●</span>
+                <span class="opt-text" id="opt-text-2"></span>
+            </button>
+            <button class="option opt-square" id="opt-3">
+                <span class="opt-icon">■</span>
+                <span class="opt-text" id="opt-text-3"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===================== ANSWER SUBMITTED SCREEN ===================== -->
+    <div id="answer-screen" class="card hidden">
+        <div id="answer-submitted-icon" class="answer-icon">⏳</div>
+        <p id="answer-submitted-text" class="answer-label">Answer Submitted!</p>
+        <p class="description">Waiting for results...</p>
+        <div class="waiting-dots">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+
+    <!-- ===================== RESULT SCREEN (per question) ===================== -->
+    <div id="result-screen" class="card hidden">
+        <div id="result-icon" class="result-icon">✅</div>
+        <h2 id="result-heading" class="result-heading">Correct!</h2>
+        <p id="result-points-earned" class="result-points-earned">+800 pts</p>
+        <div class="result-divider"></div>
+        <div class="result-rank-row">
+            <span class="result-rank-label">Your Rank</span>
+            <span id="result-rank" class="result-rank-value">#3</span>
+        </div>
+        <div class="result-rank-row">
+            <span class="result-rank-label">Total Score</span>
+            <span id="result-total" class="result-rank-value">2400 pts</span>
+        </div>
+        <div class="streak-badge hidden" id="streak-badge">🔥 <span id="streak-count">2</span>x Streak!</div>
+    </div>
+
+    <!-- ===================== LEADERBOARD SCREEN ===================== -->
+    <div id="leaderboard-screen" class="card hidden">
+        <h2 class="leaderboard-title">🏆 Leaderboard</h2>
+        <p id="leaderboard-subtitle" class="leaderboard-subtitle">After Question <span id="leaderboard-q-num">1</span></p>
+        <div id="leaderboard-list" class="leaderboard-list">
+            <!-- Populated by JS -->
+        </div>
+        <p class="description" style="margin-top:18px;">Next question coming up...</p>
+    </div>
+
+    <!-- ===================== FINAL PODIUM SCREEN ===================== -->
+    <div id="final-screen" class="card hidden">
+        <h2 class="final-title">Game Over!</h2>
+        <div id="podium-wrap" class="podium-wrap">
+            <!-- 2nd -->
+            <div class="podium-slot podium-2nd hidden" id="pod-2">
+                <div class="podium-avatar">🥈</div>
+                <div class="podium-name" id="pod-name-2"></div>
+                <div class="podium-score" id="pod-score-2"></div>
+                <div class="podium-bar bar-2nd"></div>
+            </div>
+            <!-- 1st -->
+            <div class="podium-slot podium-1st hidden" id="pod-1">
+                <div class="podium-avatar">🥇</div>
+                <div class="podium-name" id="pod-name-1"></div>
+                <div class="podium-score" id="pod-score-1"></div>
+                <div class="podium-bar bar-1st"></div>
+            </div>
+            <!-- 3rd -->
+            <div class="podium-slot podium-3rd hidden" id="pod-3">
+                <div class="podium-avatar">🥉</div>
+                <div class="podium-name" id="pod-name-3"></div>
+                <div class="podium-score" id="pod-score-3"></div>
+                <div class="podium-bar bar-3rd"></div>
+            </div>
+        </div>
+        <div id="my-final-result" class="my-final-result hidden">
+            <p id="my-final-rank" class="my-final-rank"></p>
+            <p id="my-final-score" class="my-final-score"></p>
+        </div>
+        <button id="play-again-btn" class="btn-primary" style="margin-top:20px;">Play Again</button>
+    </div>
+
+    <!-- ===================== KICKED SCREEN ===================== -->
+    <div id="kicked-screen" class="card hidden">
+        <div style="font-size:60px; margin-bottom:16px;">😢</div>
+        <h2 class="title" style="color:#ef4444;">You were removed</h2>
+        <p class="description">The host removed you from the game.</p>
+        <button id="rejoin-btn" class="btn-primary" style="margin-top:20px;">Back to Lobby</button>
+    </div>
+
+    <!-- ===================== CONNECTION LOST SCREEN ===================== -->
+    <div id="disconnected-screen" class="card hidden">
+        <div style="font-size:60px; margin-bottom:16px;">📡</div>
+        <h2 class="title" style="color:#f59e0b;">Connection Lost</h2>
+        <p class="description">Trying to reconnect...</p>
+        <div class="waiting-dots"><span></span><span></span><span></span></div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> 

@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+/* ---------- Design Tokens ---------- */
+
+:root {
+  --purple-deep:  #5a189a;
+  --purple-mid:   #7b2ff7;
+  --purple-soft:  #9d4edd;
+  --purple-pale:  #e9d8fd;
+  --purple-wash:  #f3ebff;
+
+  --red:    #e8294e;
+  --blue:   #1a6fd4;
+  --yellow: #d4930a;
+  --green:  #1f8c3b;
+
+  --white:      #ffffff;
+  --surface:    #faf7ff;
+  --card:       #ffffff;
+  --border:     #ede0ff;
+  --text-dark:  #1a0533;
+  --text-muted: #7a6490;
+  --input-bg:   #f8f4ff;
+
+  --shadow-sm: 0 2px 8px rgba(90,24,154,.09);
+  --shadow-md: 0 6px 20px rgba(90,24,154,.13);
+  --shadow-lg: 0 12px 36px rgba(90,24,154,.16);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  font-family: 'Nunito', sans-serif;
+}
+
+/* ---------- Reset ---------- */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- Body ---------- */
+
+body {
+  min-height: 100vh;
+  background: var(--surface);
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(157,78,221,.10) 0%, transparent 50%),
+    radial-gradient(circle at 85% 90%, rgba(123,47,247,.08) 0%, transparent 50%),
+    radial-gradient(var(--purple-pale) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 28px 28px;
+  color: var(--text-dark);
+  padding: 36px 20px 60px;
+}
+
+/* ---------- Page Header ---------- */
+
+h1 {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--purple-deep);
+  letter-spacing: .5px;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h1::before {
+  content: '🎯';
+  font-size: 28px;
+}
+
+/* ---------- Top Action Bar ---------- */
+
+/* Group the three buttons together */
+body > button,
+body > #addSlideBtn,
+body > #saveBtn,
+body > #hostBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .4px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  padding: 11px 22px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+#addSlideBtn {
+  background: var(--purple-mid);
+  color: var(--white);
+  box-shadow: 0 5px 16px rgba(123,47,247,.30);
+}
+
+#addSlideBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 22px rgba(123,47,247,.40);
+}
+
+#saveBtn {
+  background: var(--white);
+  color: var(--purple-deep);
+  border: 2px solid var(--purple-pale);
+  box-shadow: var(--shadow-sm);
+}
+
+#saveBtn:hover {
+  background: var(--purple-wash);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+#hostBtn {
+  background: linear-gradient(135deg, #2dc653, #1a9640);
+  color: var(--white);
+  box-shadow: 0 5px 16px rgba(29,150,64,.28);
+}
+
+#hostBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 22px rgba(29,150,64,.38);
+}
+
+/* Active press */
+#addSlideBtn:active,
+#saveBtn:active,
+#hostBtn:active {
+  transform: scale(.96);
+}
+
+/* ---------- Divider ---------- */
+
+hr {
+  border: none;
+  border-top: 2px solid var(--purple-pale);
+  margin: 4px 0 28px;
+}
+
+/* ---------- Slides Container ---------- */
+
+#slidesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 780px;
+}
+
+/* ---------- Individual Question Slide ---------- */
+
+.question-slide {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-md);
+  animation: slideIn .3s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.question-slide h2 {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--purple-soft);
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--purple-pale);
+}
+
+/* ---------- Labels ---------- */
+
+.question-slide label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+/* ---------- Text Inputs ---------- */
+
+.question-slide input[type="text"],
+.question-slide input[type="number"] {
+  width: 100%;
+  background: var(--input-bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color .18s, box-shadow .18s;
+  margin-bottom: 12px;
+}
+
+.question-slide input[type="text"]:focus,
+.question-slide input[type="number"]:focus {
+  border-color: var(--purple-soft);
+  box-shadow: 0 0 0 3px rgba(157,78,221,.15);
+  background: var(--white);
+}
+
+.question-slide input[type="text"]::placeholder {
+  color: #c0aad8;
+  font-weight: 600;
+}
+
+/* Question text input — slightly larger */
+.question-slide .questionText {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ---------- Option Inputs — coloured left border ---------- */
+
+.question-slide .option:nth-of-type(1) { border-left: 4px solid var(--red); }
+.question-slide .option:nth-of-type(2) { border-left: 4px solid var(--blue); }
+.question-slide .option:nth-of-type(3) { border-left: 4px solid var(--yellow); }
+.question-slide .option:nth-of-type(4) { border-left: 4px solid var(--green); }
+
+/* ---------- File Input ---------- */
+
+.question-slide input[type="file"] {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--input-bg);
+  border: 2px dashed var(--purple-pale);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  margin-bottom: 12px;
+  transition: border-color .18s, background .18s;
+}
+
+.question-slide input[type="file"]:hover {
+  border-color: var(--purple-soft);
+  background: var(--purple-wash);
+}
+
+/* ---------- Select (Correct Answer) ---------- */
+
+.question-slide select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  background: var(--input-bg)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239d4edd' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat right 14px center;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 11px 40px 11px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  outline: none;
+  cursor: pointer;
+  transition: border-color .18s, box-shadow .18s;
+  margin-bottom: 12px;
+}
+
+.question-slide select:focus {
+  border-color: var(--purple-soft);
+  box-shadow: 0 0 0 3px rgba(157,78,221,.15);
+  background-color: var(--white);
+}
+
+/* ---------- Timer Input — compact width ---------- */
+
+.question-slide .timer {
+  width: 120px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--purple-deep);
+}
+
+/* ---------- Delete / Remove Button ---------- */
+
+.question-slide .removeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 9px 18px;
+  border-radius: 8px;
+  border: 1.5px solid #ffc0cb;
+  background: #fff0f3;
+  color: var(--red);
+  cursor: pointer;
+  transition: background .18s, transform .18s, box-shadow .18s;
+  margin-top: 4px;
+}
+
+.question-slide .removeBtn:hover {
+  background: var(--red);
+  color: var(--white);
+  border-color: var(--red);
+  transform: scale(1.05);
+  box-shadow: 0 4px 14px rgba(232,41,78,.28);
+}
+
+.question-slide .removeBtn:active {
+  transform: scale(.96);
+}
+
+/* ---------- Slide inner divider ---------- */
+
+.question-slide hr {
+  border-color: var(--purple-pale);
+  margin: 20px 0 0;
+}
+
+/* ---------- Spacing helpers (br replacements handled via margins) ---------- */
+
+.question-slide br { display: none; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 600px) {
+  body { padding: 20px 14px 48px; }
+
+  h1 { font-size: 24px; }
+
+  .question-slide { padding: 20px 18px; }
+
+  #addSlideBtn,
+  #saveBtn,
+  #hostBtn {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .question-slide .timer { width: 100%; }
+}

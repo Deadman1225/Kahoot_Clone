@@ -1,0 +1,640 @@
+/* --- Global Reset & Base Styles --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- Layout Components --- */
+.card {
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: block;
+}
+
+/* Utility class for toggling states via JavaScript */
+.hidden {
+    display: none !important;
+}
+
+/* --- Typography --- */
+.title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #4f46e5;
+    margin-bottom: 24px;
+}
+
+.subtitle-success {
+    font-size: 24px;
+    font-weight: 700;
+    color: #16a34a;
+    margin-bottom: 12px;
+}
+
+.description {
+    font-size: 16px;
+    color: #4b5563;
+    line-height: 1.5;
+}
+
+/* --- Inputs & Buttons --- */
+.input-field {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.input-field:focus {
+    border-color: #4f46e5;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 16px;
+    background-color: #4f46e5;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 8px;
+}
+
+.btn-primary:hover {
+    background-color: #4338ca;
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* --- Error Text --- */
+.error-text {
+    color: #ef4444;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* =====================================================
+   WAITING SCREEN
+   ===================================================== */
+.waiting-icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+    animation: bounce 1.2s infinite;
+}
+
+.nickname-display {
+    font-size: 22px;
+    font-weight: 800;
+    color: #4f46e5;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+/* Animated waiting dots */
+.waiting-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.waiting-dots span {
+    width: 10px;
+    height: 10px;
+    background-color: #4f46e5;
+    border-radius: 50%;
+    animation: dot-pulse 1.4s infinite ease-in-out;
+}
+
+.waiting-dots span:nth-child(2) { animation-delay: 0.2s; }
+.waiting-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dot-pulse {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* =====================================================
+   GET READY / COUNTDOWN SCREEN
+   ===================================================== */
+.get-ready-label {
+    font-size: 22px;
+    font-weight: 700;
+    color: #4b5563;
+    margin-top: 20px;
+}
+
+.countdown-ring {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+}
+
+.countdown-ring svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.ring-bg {
+    fill: none;
+    stroke: #e5e7eb;
+    stroke-width: 8;
+}
+
+.ring-fill {
+    fill: none;
+    stroke: #4f46e5;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+}
+
+.countdown-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 52px;
+    font-weight: 900;
+    color: #4f46e5;
+}
+
+/* =====================================================
+   QUESTION SCREEN
+   ===================================================== */
+#question-screen {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Top bar */
+.question-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 12px 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.q-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.q-number {
+    font-size: 20px;
+    font-weight: 900;
+    color: #4f46e5;
+}
+
+.q-total {
+    font-size: 14px;
+    font-weight: 600;
+    color: #9ca3af;
+}
+
+/* Timer circle */
+.timer-circle {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+.timer-circle svg {
+    transform: rotate(-90deg);
+    width: 100%;
+    height: 100%;
+}
+
+.timer-bg {
+    fill: none;
+    stroke: #e5e7eb;
+    stroke-width: 7;
+}
+
+.timer-track {
+    fill: none;
+    stroke: #4f46e5;
+    stroke-width: 7;
+    stroke-linecap: round;
+    stroke-dasharray: 264;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear, stroke 1s ease;
+}
+
+.timer-track.urgent {
+    stroke: #ef4444;
+    animation: pulse-red 0.5s infinite alternate;
+}
+
+@keyframes pulse-red {
+    from { stroke: #ef4444; }
+    to   { stroke: #fca5a5; }
+}
+
+.timer-count {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    font-weight: 900;
+    color: #111827;
+}
+
+/* =====================================================
+   ANSWER OPTIONS — Kahoot color coding
+   ===================================================== */
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+    min-height: 72px;
+    transition: transform 0.15s ease, filter 0.15s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.option:hover {
+    transform: scale(1.04);
+    filter: brightness(1.08);
+}
+
+.option:active {
+    transform: scale(0.97);
+}
+
+/* Kahoot classic colours */
+.opt-triangle { background-color: #e21b3c; }   /* Red */
+.opt-diamond  { background-color: #1368ce; }   /* Blue */
+.opt-circle   { background-color: #d89e00; }   /* Yellow */
+.opt-square   { background-color: #26890c; }   /* Green */
+
+.opt-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+
+.opt-text {
+    flex: 1;
+    line-height: 1.3;
+}
+
+/* Answered state */
+.option.selected {
+    filter: brightness(0.75);
+    cursor: default;
+    transform: scale(1) !important;
+}
+
+.option.selected::after {
+    content: '✓';
+    position: absolute;
+    right: 14px;
+    font-size: 22px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.85);
+}
+
+.option.disabled {
+    cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Correct / wrong reveal */
+.option.correct {
+    outline: 4px solid #ffffff;
+    filter: brightness(1) !important;
+    animation: correct-pop 0.4s ease;
+}
+
+.option.wrong {
+    filter: brightness(0.4) grayscale(0.5);
+}
+
+@keyframes correct-pop {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+/* =====================================================
+   ANSWER SUBMITTED SCREEN
+   ===================================================== */
+.answer-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    animation: spin-in 0.4s ease;
+}
+
+.answer-label {
+    font-size: 22px;
+    font-weight: 800;
+    color: #4f46e5;
+    margin-bottom: 8px;
+}
+
+@keyframes spin-in {
+    from { transform: scale(0) rotate(-180deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* =====================================================
+   PER-QUESTION RESULT SCREEN
+   ===================================================== */
+.result-icon {
+    font-size: 68px;
+    margin-bottom: 12px;
+    animation: pop 0.5s cubic-bezier(.36,.07,.19,.97);
+}
+
+@keyframes pop {
+    0%   { transform: scale(0.4); opacity: 0; }
+    70%  { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.result-heading {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.result-heading.correct  { color: #16a34a; }
+.result-heading.wrong    { color: #ef4444; }
+.result-heading.timeout  { color: #f59e0b; }
+
+.result-points-earned {
+    font-size: 36px;
+    font-weight: 900;
+    color: #4f46e5;
+    margin-bottom: 20px;
+    animation: count-up 0.6s ease-out;
+}
+
+@keyframes count-up {
+    from { transform: translateY(10px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+.result-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 0 0 16px 0;
+}
+
+.result-rank-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.result-rank-label {
+    font-size: 15px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.result-rank-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.streak-badge {
+    margin-top: 16px;
+    display: inline-block;
+    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 999px;
+    animation: badge-pop 0.5s 0.3s both cubic-bezier(.36,.07,.19,.97);
+}
+
+@keyframes badge-pop {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* =====================================================
+   LEADERBOARD SCREEN
+   ===================================================== */
+.leaderboard-title {
+    font-size: 24px;
+    font-weight: 900;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.leaderboard-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 12px 14px;
+    animation: slide-in 0.35s ease both;
+}
+
+.leaderboard-item.me {
+    background: #ede9fe;
+    border: 2px solid #4f46e5;
+}
+
+@keyframes slide-in {
+    from { transform: translateX(-20px); opacity: 0; }
+    to   { transform: translateX(0);     opacity: 1; }
+}
+
+.lb-rank {
+    font-size: 18px;
+    font-weight: 900;
+    color: #4f46e5;
+    min-width: 28px;
+    text-align: center;
+}
+
+.lb-rank.gold   { color: #f59e0b; }
+.lb-rank.silver { color: #9ca3af; }
+.lb-rank.bronze { color: #b45309; }
+
+.lb-name {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+    text-align: left;
+}
+
+.lb-score {
+    font-size: 16px;
+    font-weight: 800;
+    color: #4f46e5;
+}
+
+/* =====================================================
+   FINAL PODIUM SCREEN
+   ===================================================== */
+.final-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: #111827;
+    margin-bottom: 24px;
+}
+
+.podium-wrap {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.podium-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    animation: rise-up 0.6s ease both;
+}
+
+@keyframes rise-up {
+    from { transform: translateY(30px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+.podium-avatar {
+    font-size: 32px;
+}
+
+.podium-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.podium-score {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.podium-bar {
+    width: 72px;
+    border-radius: 6px 6px 0 0;
+}
+
+.bar-1st { height: 90px; background: #f59e0b; }
+.bar-2nd { height: 60px; background: #9ca3af; }
+.bar-3rd { height: 45px; background: #b45309; }
+
+.podium-2nd { animation-delay: 0.2s; }
+.podium-1st { animation-delay: 0s; }
+.podium-3rd { animation-delay: 0.4s; }
+
+.my-final-result {
+    background: #ede9fe;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 4px;
+}
+
+.my-final-rank {
+    font-size: 16px;
+    color: #6b7280;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.my-final-score {
+    font-size: 26px;
+    font-weight: 900;
+    color: #4f46e5;
+}
+
+/* =====================================================
+   DISCONNECTED SCREEN
+   ===================================================== */
+#disconnected-screen .title {
+    color: #f59e0b;
+}

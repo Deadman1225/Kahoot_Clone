@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Host</title>
+    <link rel="stylesheet" href="/host/style.css">
+</head>
+
+<body>
+    <div class = "first">
+        <div class = "pin">
+        </div>
+    </div>
+
+    <div class = "second hidden">
+        <div class = "Pin">
+            <h2> Join with the Pin</h2>
+            <h2 id = "pin-area"> </h2>
+        </div>
+        <div class = "start">
+            <button id = "start-button"> START </button>
+        </div>
+        <div class = "player-area">
+            <ul id = "player-list">
+
+            </ul>
+        </div>
+    </div>
+    <div class = "third hidden">
+        <h2 id = "loading-question"> Loading the question.... </h2>
+    </div>
+    <div class="fourth hidden">
+        <div class="question-container">
+            <h2 id="question-text">Waiting for question...</h2>
+            <h2 id = "timer-display"> </h2>
+        </div>
+        
+        <div class="options-container">
+            <button class="option">Option 1</button>
+            <button class="option">Option 2</button>
+            <button class="option">Option 3</button>
+            <button class="option">Option 4</button>
+        </div>
+
+        <div class = "answered-players">
+            <ul id = "ans-player-list">
+                
+            </ul>
+        </div>
+    </div>
+
+    <div class = "fifth hidden">
+        <div class = "loadingscreen">
+            <h2> Loading the leaderboard.....</h2>
+        </div>
+    </div>
+    
+    <div class = "sixth hidden">
+        <div class = "leaderboard">
+            <h3> LEADERBOARD </h3>
+            <ul id = "leaderboard-list">
+
+            </ul>
+        </div>
+    </div>
+
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/host/app.js"></script>
+
+</body>
+</html>
