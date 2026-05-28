@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:hugeicons/hugeicons.dart';
-import 'dart:typed_data';
-import 'dart:convert';
 
 void main()
 {
@@ -49,9 +47,8 @@ class _GamePageState extends State<GamePage>
   int currentPoints = 0;
   int totalPoints = 0;
   int timer = 20;
-  Uint8List? imageFile;
 
-  GameState currentState = GameState.lobby;
+  GameState currentState = GameState.winnerScreen;
   late IO.Socket socket;
   
   final TextEditingController pinController = TextEditingController();
@@ -118,36 +115,6 @@ class _GamePageState extends State<GamePage>
 
     socket.on('gameStarted',(data)
     {
-      
-      if(data['currentQuestion'] != null && data['currentQuestion']['image'] != null)
-      {
-        try
-        {
-          String Image = data['currentQuestion']['image'];
-          if (Image.contains(',')) {
-            Image = Image.split(',').last;
-          }
-          Image = Image.replaceAll(RegExp(r'\s+'), '');
-
-          // 4. Fix Base64 padding (Dart requires the length to be a multiple of 4)
-          int padding = Image.length % 4;
-          if (padding != 0) {
-            Image += '=' * (4 - padding);
-          }
-          imageFile = base64Decode(Image);
-          
-        }
-        catch(error)
-        {
-          print(error);
-          imageFile = null; 
-        }
-      }
-      else
-      {
-        imageFile = null;
-      }
-
       setState(() 
       {
         currentState = GameState.option;
@@ -176,6 +143,7 @@ class _GamePageState extends State<GamePage>
       setState(() {
         isCorrect = false;
         totalPoints = data['total'];
+        currentPoints = 0;
         currentState = GameState.answerStatus;
       });
     });
@@ -413,18 +381,6 @@ class _GamePageState extends State<GamePage>
         
         child: Column(
           children: [
-          if(imageFile != null)
-            Expanded(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Image.memory(
-                    imageFile!,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              )
-            ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
@@ -615,47 +571,45 @@ class _GamePageState extends State<GamePage>
 
   Widget buildAnswerStatus()
   {
-    return Column(
-          crossAxisAlignment : CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          
-          children: [Text(
-            isCorrect ? "Correct" : "Incorrect",
-            style: TextStyle(
-              color : Colors.white,
-              fontSize: 40,
+    return SingleChildScrollView(
+      child: Column(
+            crossAxisAlignment : CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [Text(
+              isCorrect ? "Correct" : "Incorrect",
+              style: TextStyle(
+                color : Colors.white,
+                fontSize: 40,
+              ),
             ),
-          ),
-          HugeIcon(
-            icon : isCorrect ? HugeIcons.strokeRoundedTick03 : HugeIcons.strokeRoundedMultiplicationSign,
-            color : isCorrect? Colors.green : Colors.red,
-            size: 48,
-          ),
-          SizedBox(height: 20),
-          Text(
-            "Your Position Now is",
-            style: TextStyle(
-              color : Colors.amber,
-              fontSize: 25,
-
+            HugeIcon(
+              icon : isCorrect ? HugeIcons.strokeRoundedTick03 : HugeIcons.strokeRoundedMultiplicationSign,
+              color : isCorrect? Colors.green : Colors.red,
+              size: 48,
             ),
-          ),
-          SizedBox(height:5),
-          Center(
-            child: Text(
-              "$position",
-              style:TextStyle(
+            SizedBox(height: 20),
+            Text(
+              "Your Position Now is",
+              style: TextStyle(
                 color : Colors.amber,
-                fontSize: 25
-              )
+                fontSize: 25,
+      
+              ),
             ),
-          ),
-          SizedBox(height : 20),
-
-          SizedBox(
-            width: 180,
-            height: 90,
-            child: Padding(
+            SizedBox(height:5),
+            Center(
+              child: Text(
+                "$position",
+                style:TextStyle(
+                  color : Colors.amber,
+                  fontSize: 25
+                )
+              ),
+            ),
+            SizedBox(height : 20),
+      
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -666,11 +620,11 @@ class _GamePageState extends State<GamePage>
                       HugeIcon(
                         icon: HugeIcons.strokeRoundedAdd01,
                         color: Colors.teal,
-
+    
                       ),
-
+    
                       SizedBox(width: 3),
-
+    
                       Text(
                         "$currentPoints",
                         style: TextStyle(
@@ -681,9 +635,9 @@ class _GamePageState extends State<GamePage>
                       ),
                     ],
                   ),
-
+    
                   SizedBox(height: 6),
-
+    
                   Text(
                     "Total Points: $totalPoints",
                     textAlign: TextAlign.center,
@@ -696,10 +650,9 @@ class _GamePageState extends State<GamePage>
                 ],
               ),
             ),
+            ],
           ),
-
-          ],
-        );
+    );
   }
 
   Widget buildWinnerScreen(int rank)
@@ -765,7 +718,8 @@ Widget winnerLayout({
         Text(
           "Your Points are $totalPoints",
           style: TextStyle(
-            color: Colors.teal
+            color: Colors.teal,
+            fontSize: 20,
           ),
         )
       ],
@@ -787,14 +741,22 @@ Widget loserLayout() {
         SizedBox(height: 20),
 
         Text(
-          "Game Finished, your position is $position",
+          "Game Finished",
           style: TextStyle(fontSize: 28),
+        ),
+        SizedBox(height: 20),
+        Text(
+          "Your position is $position",
+          style: TextStyle(
+            fontSize: 25,
+          ),
         ),
         SizedBox(height: 20),
         Text(
           "Your points are $totalPoints",
           style: TextStyle(
-            color: Colors.teal
+            color: Colors.teal,
+            fontSize: 20,
           ),
         )
       ],

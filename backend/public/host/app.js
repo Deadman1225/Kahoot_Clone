@@ -10,6 +10,7 @@ const leaderboardList = document.getElementById('leaderboard-list');
 const PinArea = document.getElementById('pin-area');
 const TimerDisplay = document.getElementById('timer-display');
 const answeredPlayerList = document.getElementById('ans-player-list');
+const questionImage = document.getElementById('question-image');
 
 const firstScreen = document.querySelector('.first');
 const secondScreen = document.querySelector('.second');
@@ -96,6 +97,18 @@ function mainLoop()
 
     questionText.innerText = questionProperties.question;
 
+    if (questionImage) 
+    {
+        if (questionProperties.image) 
+        {
+            questionImage.src = questionProperties.image;
+            questionImage.style.display = 'block';
+        } else 
+        {
+            questionImage.src = '';
+            questionImage.style.display = 'none'; 
+        }
+    }
     optionButtons.forEach((button, index) =>
     {   
         button.innerText = questionProperties.options[index];
@@ -218,7 +231,6 @@ socket.on('playerJoined', (data) =>
 socket.on('questionLoaded', (data)=>
 {
     quizTemplates = data.quizTemplates;
-    console.log(quizTemplates);
 });
 
 socket.on('timerTick', (data)=>

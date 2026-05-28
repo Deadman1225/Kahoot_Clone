@@ -37,7 +37,7 @@ io.on('connection', socket =>
 {   
     console.log(`Socket connected: ${socket.id}`);
     
-    socket.on('disconnect', async() => 
+    socket.on('disconnect', () => 
     {
         console.log(`Socket disconnected : ${socket.id}`);
 
@@ -76,7 +76,7 @@ io.on('connection', socket =>
     {
         const roomPin = data.roomPin;
         const quizTemplates = generatedRooms[roomPin];
-        
+
         activeRooms[roomPin] = 
         {
             scores : {},
@@ -227,7 +227,7 @@ io.on('connection', socket =>
             const timeElapsed = (Date.now() - activeRooms[roomPin].startTime) / 1000;
             const questionDuration = currentQ.timer;
 
-            pointsEarned = Math.max(500,Math.floor(1000 * (1 - (timeElapsed / (questionDuration * 1.5)))));
+            pointsEarned = Math.floor(1000 * (1 - (timeElapsed / (questionDuration * 2))));
         }
 
         activeRooms[roomPin].playerPoints[data.playerSocketId] =

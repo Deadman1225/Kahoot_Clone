@@ -541,3 +541,12 @@ button:active { transform: scale(.96); }
   .third h2,
   .fifth h2 { font-size: 22px; padding: 20px 28px; }
 }
+#question-image {
+    max-width: 100%;
+    max-height: 40vh; 
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    object-fit: contain;
+    margin: 10px auto 30px auto;
+    display: block;
+}
