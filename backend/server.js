@@ -310,8 +310,7 @@ socket.on('kickPlayer', async(Id) =>
 
     if(roomPin && activeRooms[roomPin])
     {
-        activeRooms[roomPin].totalPlayers = Math.max(0,
-            activeRooms[roomPin].totalPlayers - 1);
+        activeRooms[roomPin].totalPlayers = Math.max(0,activeRooms[roomPin].totalPlayers - 1);
 
         activeRooms[roomPin].answeredPlayers.delete(Id);
 
